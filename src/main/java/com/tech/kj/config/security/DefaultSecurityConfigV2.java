@@ -14,22 +14,20 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * This `DefaultSecurityConfig` has implemented the default behaviour of spring http basic
  */
-//@Configuration
-public class DefaultSecurityConfig {
+@Configuration
+public class DefaultSecurityConfigV2 {
 
     @Bean
-    public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.httpBasic(Customizer.withDefaults());
-        httpSecurity.authorizeHttpRequests(c-> c.anyRequest().authenticated());
-        return httpSecurity.build();
-    }
-    @Bean
-    public UserDetailsService userDetailsService(){
         var user = User.withUsername("kishan")
                 .password("password")
                 .authorities("read")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user);
+        httpSecurity.userDetailsService(userDetailsService);
+        httpSecurity.authorizeHttpRequests(c-> c.anyRequest().authenticated());
+        return httpSecurity.build();
     }
 
     @Bean
