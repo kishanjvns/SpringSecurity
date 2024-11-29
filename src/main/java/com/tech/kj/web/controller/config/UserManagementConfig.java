@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class UserManagementConfig {
-    private static final String loadUserByNameQuery="select username,password,is_expired from App_User where username = ?";
+    private static final String loadUserByNameQuery="select username,password,enabled from App_User where username = ?";
     private static final String loadAuthoritiesByUserNameQuery= "select username,authority from authorities where username= ?";
 
     @Bean
